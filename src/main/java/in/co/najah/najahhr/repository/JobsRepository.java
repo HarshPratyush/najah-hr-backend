@@ -18,4 +18,7 @@ public interface JobsRepository extends JpaRepository<Jobs,Long> {
     Optional<Jobs> findByEmailId(String emailId);
 
     List<Optional<Jobs>> findByDivisionId(long division);
+
+    @Query("Select SUM(jobs.openings),jobs.division.divisionName,jobs.location,jobs.division.industries.name from Jobs jobs  group by jobs.division.divisionName,jobs.location,jobs.division.industries.name")
+    List<Object[]> findAllJobs();
 }

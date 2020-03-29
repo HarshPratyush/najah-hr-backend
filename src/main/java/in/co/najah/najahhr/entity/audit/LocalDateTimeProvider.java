@@ -10,7 +10,6 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Optional;
 
 
-@Component("dateTimeProvider")
 public class LocalDateTimeProvider implements DateTimeProvider {
 
     @Override

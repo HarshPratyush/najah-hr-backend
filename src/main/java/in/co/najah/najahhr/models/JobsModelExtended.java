@@ -29,7 +29,7 @@ public class JobsModelExtended {
     private long openings;
 
     @NotNull
-    private long division;
+    private long divisionId;
 
     private String subject;
 

@@ -1,11 +1,9 @@
 package in.co.najah.najahhr.rest;
 
 
+import in.co.najah.najahhr.entity.Division;
 import in.co.najah.najahhr.entity.Industries;
-import in.co.najah.najahhr.models.IndustriesModel;
-import in.co.najah.najahhr.models.IndustryModel;
-import in.co.najah.najahhr.models.ResponseModel;
-import in.co.najah.najahhr.models.SingleIndustry;
+import in.co.najah.najahhr.models.*;
 import in.co.najah.najahhr.service.IndustryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 
+@CrossOrigin
 @RequestMapping("industry")
 @RestController
 public class IndustryController {
@@ -37,4 +36,13 @@ public class IndustryController {
        return industryService.getByIdentifier(identifier);
     }
 
+    @GetMapping("division/{industriesUrl}"  )
+    public Single<ResponseModel<List<DivisionModel>>> getDivision(@PathVariable("industriesUrl") String url){
+        return industryService.getDivisionByIndustriesUrl(url);
+    }
+
+    @PostMapping("division")
+    public Single<ResponseModel<String>> saveDivision(@Valid @RequestBody DivisionModel divisionModel){
+        return industryService.saveDivision(divisionModel);
+    }
 }

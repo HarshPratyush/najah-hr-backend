@@ -1,21 +1,19 @@
 package in.co.najah.najahhr.util;
 
 import in.co.najah.najahhr.entity.*;
-import in.co.najah.najahhr.models.IndustriesModel;
-import in.co.najah.najahhr.models.JobSeekerModel;
-import in.co.najah.najahhr.models.JobsModelExtended;
-import in.co.najah.najahhr.models.SingleIndustry;
+import in.co.najah.najahhr.models.*;
 
 import java.time.LocalDate;
 
 public class Mapper {
 
-    public static IndustriesModel mapJob(Industries  industries){
+    public static IndustriesModel map(Industries  industries){
         IndustriesModel  industriesModel = new IndustriesModel();
         industriesModel.setUrl(industries.getUrl());
         industriesModel.setAttachmentId(industries.getAttachmentId());
         industriesModel.setName(industries.getName());
         industriesModel.setDescription(industries.getDescription());
+        industriesModel.setIndustryId(industries.getIndustryId());
         return industriesModel;
     }
 
@@ -33,7 +31,7 @@ public class Mapper {
         job.setSubject(jobModel.getSubject());
         job.setCompanyName(jobModel.getCompanyName());
         job.setArchived(jobModel.isArchived());
-        job.setDivision(new Division(jobModel.getDivision()));
+        job.setDivision(new Division(jobModel.getDivisionId()));
         job.setEmailId(jobModel.getEmailId());
         job.setLocation(jobModel.getLocation());
         job.setOpenings(jobModel.getOpenings());
@@ -53,5 +51,12 @@ public class Mapper {
         jobSeeker.setSubject(jobSeekerModel.getSubject());
         jobSeeker.setEmailId(jobSeekerModel.getEmailId());
         return jobSeeker;
+    }
+
+    public static DivisionModel mapDivisionToModel(Division division) {
+        DivisionModel divisionModel = new DivisionModel();
+        divisionModel.setDivisionName(division.getDivisionName());
+        divisionModel.setId(division.getId());
+        return divisionModel;
     }
 }

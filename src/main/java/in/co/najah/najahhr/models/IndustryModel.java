@@ -30,4 +30,6 @@ public class IndustryModel {
     private String image;
 
     private String fileExt;
+
+    private String fileType;
 }
