@@ -6,7 +6,7 @@ logging:
 
 spring:
     datasource:
-        driver-class-name: org.postgresql.Driver
+#        driver-class-name: org.postgresql.Driver
         hikari:
             auto-commit: false
             connection-init-sql: SELECT 1
@@ -16,8 +16,10 @@ spring:
             poolName: najahr-pool
         password: admin
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/najahr
+#        url: jdbc:postgresql://localhost:5432/najahr
         username: postgres
+    password: admin
+    username: postgres
     jmx:
         default-domain: najahr-app
     jpa:
@@ -29,6 +31,15 @@ spring:
                 format_sql: true
                 use_sql_comments: true
         show-sql: true
+        database: POSTGRESQL
+    cloud:
+        gcp:
+            sql:
+                enabled: true
+                database-name: najahr
+                instance-connection-name: najahrbackend:us-central1:najahr
+#        credentials:
+#            locations: classpath://najahrbackend-3bd3911302b9.json
 
 server:
     servlet:

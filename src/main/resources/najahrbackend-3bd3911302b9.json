@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "najahrbackend",
+  "private_key_id": "3bd3911302b9322ccb6a872d857c5972025e72b1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDES2fSF8OgToq4\neZOEWfSHGsnhyS1p7Yy8H7PmFh510vRvSCTbawUg/Klf0QaD3DcWuyUdnQe5eLwL\n9ZwehTfzbhPNFtTOjGAiC/d5zfbOes/HgmcdHj4QPbSnE4FQx/LuuND7teQm7vbd\nrBtzwjnUACrmezkaElq17bkPV50kx+f7SgLsoD4BvtLGDFk0mvluKT/Q4jfVNfnf\n26JnKoNG3hjbSUz1LWdBW6u7FsaT3d+kR00zJAmbmBAAOWTfgIQNCgR1vTmDmFDG\nOjzr3JI+WH4idl/CrogI/P09reshDsp0LfGrjidbj7kfBaaJ3Rs326RsaAL5llsV\noFVLz5gTAgMBAAECggEAOxWRagEiLqoFglKB7ygefN443x/tbgGFR4jpXvvQblmx\nnp9iDLORZyT2HHOv2NfbsxlgqiG+lfq764Oh2uPxe/HpvuU85/ED7KuacYzn2a3I\nxf4/6FlWiA/yxQmPdo/A1U9HBETzKC7smru3xae0PVZRk2+KuAjHShSEjBQspkmI\nvG3/xQKNPRkyS6raqhVloETRQBjKN4tl44A+md7y478O1gaP6NekaG+9oVRdq4OY\nEsLKITHL0vlmtlwsTJE4JzZFki2uBtiMvRxO8svGTjej/rwkw6PR20RUl8cECtga\nE2DiQD0WcZH7LEiInrDftcL7Gb0zzPzZOllPKK2cpQKBgQDqBPC56Qt5lAHlkfdw\nmb8O+AqZ9YbnvBCa87ckxKLxdNFvR4B7lkLL2r60D46B+pmmAUeb8mA/Wq1XeJH2\nAliF2Q2TcAzEGj+yH3c4TB0TH4Hir23KBsdwukHNAIRFDCnIf0c4ykuUcu174J59\nR6ZgHtd8unNsqtNBRgaF3FZo3wKBgQDWu1z2NGRGFad+4+eqNB2a5qDsA6AQPP6n\nREIADOllmOW6m++EewMQ+cTq8DCL+fBPzDDpLflx9TdlUKM2nCU2g2BxMrRyUOia\nh2usJhZ/BfK/ALNDucegka+e73BxdAzKhg4EKseNNaZFplSQ0olJzXwiLu/+Gv/i\nbVJteaaTTQKBgQDXSIg0XyGBTRmZmfiqC6ZqHOGT1P2wPaCBC+fV2VeVDUSGPJ8E\nEq2MX8XEW/Nbu7CRuOepnQXSApcouvB8AphxOcZ1dkUoOoWSVcQVdF/i8b9JTN2R\nVz8ugwp5jxofcxsVKZHZurBg9oFmzrK+yaVTE8xlIBmDRHtntwXVK2gKvQKBgBVQ\nSZzifGV8dsCgjHkXbSzX4XcrsPKLq1cc7lQk8/GyqHLKUY7byuUfdY1ARAFQ0KqL\nAPvUJWNLTLFQvLKJ8yOjDKqPttt17nCQKn7O1QLMq1iMED8TrJ3ieAUVjRqlwzNC\n9Rcyy9XXUmataM1rKFdb/wtBj26wbV+jLEBTh9YtAoGAEGBXNbPF0h4IbVG5VV02\nr7NAWVRin+cBX9RnttdK3zWk816nts1w9FP4Kfz7YhvL5im0DEDuePqnP+F3LRmn\nNMmenU9MpfDwt1xsxnQHdP9388xcwSTrr9U/jEe55Kdwg5qQZl5t6xmfELxmDM7i\nFRHrWKguz+jkAMV4tj/Hc1c=\n-----END PRIVATE KEY-----\n",
+  "client_email": "najahrbackend@appspot.gserviceaccount.com",
+  "client_id": "103465149624867551973",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/najahrbackend%40appspot.gserviceaccount.com"
+}
