@@ -44,3 +44,10 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+
+appengine {
+	deploy {
+		stopPreviousVersion = true
+		promote = true
+	}
+}
