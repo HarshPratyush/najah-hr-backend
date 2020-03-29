@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.2.5.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
+	id 'com.google.cloud.tools.appengine'
 }
 
 group = 'in.co.najah'
@@ -31,6 +32,7 @@ dependencies {
 	compile "io.reactivex:rxjava-reactive-streams:1.2.1"
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
+	compile 'com.google.cloud.sql:postgres-socket-factory:1.0.15'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
