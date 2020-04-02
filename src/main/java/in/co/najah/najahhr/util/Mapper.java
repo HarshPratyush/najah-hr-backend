@@ -37,7 +37,6 @@ public class Mapper {
         job.setOpenings(jobModel.getOpenings());
         job.setRequirement(jobModel.getRequirement());
         job.setName(jobModel.getName());
-        job.setRequirement(jobModel.getRequirement());
         return job;
     }
 
@@ -58,5 +57,39 @@ public class Mapper {
         divisionModel.setDivisionName(division.getDivisionName());
         divisionModel.setId(division.getId());
         return divisionModel;
+    }
+
+    public static JobsFullModel mapToJobsFullModel(Jobs jobs) {
+        JobsFullModel jobsFullModel = new JobsFullModel();
+        jobsFullModel.setId(jobs.getId());
+        jobsFullModel.setSubject(jobs.getSubject());
+        jobsFullModel.setCompanyName(jobs.getCompanyName());
+        jobsFullModel.setArchived(jobs.isArchived());
+        jobsFullModel.setDivisionId(jobs.getDivision().getId());
+        jobsFullModel.setEmailId(jobs.getEmailId());
+        jobsFullModel.setLocation(jobs.getLocation());
+        jobsFullModel.setOpenings(jobs.getOpenings());
+        jobsFullModel.setRequirement(jobs.getRequirement());
+        jobsFullModel.setName(jobs.getName());
+        jobsFullModel.setCompanyName(jobs.getCompanyName());
+        jobsFullModel.setCreatedBy(jobs.getCreatedBy());
+        jobsFullModel.setCreatedOn(jobs.getCreatedOn().toString());
+        jobsFullModel.setUpdatedBy(jobs.getUpdatedBy());
+        jobsFullModel.setUpdatedOn(jobs.getUpdatedOn().toString());
+        return jobsFullModel;
+    }
+
+    public static JobSeekerModel map(JobSeeker jobSeeker) {
+        JobSeekerModel jobSeekerModel = new JobSeekerModel();
+        jobSeekerModel.setName(jobSeeker.getName());
+        jobSeekerModel.setEmailId(jobSeeker.getEmailId());
+        jobSeekerModel.setSubject(jobSeeker.getSubject());
+        jobSeekerModel.setMessage(jobSeeker.getMessage());
+        jobSeekerModel.setDivisionId(jobSeeker.getDivision().getId());
+        jobSeekerModel.setDob(jobSeeker.getDob().toString());
+        jobSeekerModel.setResume(jobSeeker.getResume().getAttachmentPath());
+        jobSeekerModel.setFileExt(jobSeeker.getResume().getAttachmentType());
+        jobSeekerModel.setResumeId(jobSeeker.getResume().getAttachmentId());
+        return jobSeekerModel;
     }
 }

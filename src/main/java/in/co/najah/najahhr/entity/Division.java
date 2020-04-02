@@ -22,7 +22,7 @@ public class Division extends Audit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "division_name",nullable = false,length = 100)
+        @Column(name = "division_name",nullable = false,length = 100)
     private String divisionName;
 
     @JoinColumn(nullable = false)

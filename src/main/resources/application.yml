@@ -16,7 +16,7 @@ spring:
             poolName: najahr-pool
         password: admin
         type: com.zaxxer.hikari.HikariDataSource
-#        url: jdbc:postgresql://localhost:5432/najahr
+        url: jdbc:postgresql://localhost:5432/najahr
         username: postgres
     password: admin
     username: postgres

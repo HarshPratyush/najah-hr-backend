@@ -42,6 +42,17 @@ public class JobSeekerModel {
 
     @NotNull
     @NotEmpty
+    private Long resumeId;
+
+    @NotNull
+    @NotEmpty
     private String fileExt;
 
+    public JobSeekerModel(String dob, String emailId, String message, String name, String subject) {
+        this.dob = dob;
+        this.name = name;
+        this.emailId = emailId;
+        this.message = message;
+        this.subject = subject;
+    }
 }

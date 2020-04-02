@@ -53,8 +53,8 @@ public class JobsController {
     }
 
     @GetMapping
-    public Single<ResponseModel<Map<String,List<JobsModel>>>> findAllJobs(){
-        return jobsService.findAllJobs();
+    public Single<ResponseModel<Map<String,List<JobsModel>>>> findAllJobsByIndustries(){
+        return jobsService.findAllJobsByIndustries();
     }
 
     @GetMapping(path = "downloadAttachment/{attachmentId}")
@@ -80,5 +80,21 @@ public class JobsController {
             }
         }
         return  ResponseEntity.badRequest().body(null);
+    }
+
+
+    @GetMapping(path = "/jobSeeker")
+    public Single<ResponseModel<List<JobSeekerModel>>> findAllJobSeeker(){
+        return jobsService.findAllJobSeekers();
+    }
+
+    @PutMapping(path = "archiveJob/{jobId}")
+    public Single<ResponseModel<JobsFullModel>> archiveJob(@PathVariable(name = "jobId") String jobId ){
+        return jobsService.archiveJob(Long.valueOf(jobId));
+    }
+
+    @GetMapping(path="all")
+    public Single<ResponseModel<List<JobsFullModel>>> findAllJobs(){
+        return jobsService.findAllJobs();
     }
 }

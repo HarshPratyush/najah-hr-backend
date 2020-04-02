@@ -1,7 +1,6 @@
 package in.co.najah.najahhr.service;
 
 import in.co.najah.najahhr.entity.Attachment;
-import in.co.najah.najahhr.entity.Division;
 import in.co.najah.najahhr.entity.JobSeeker;
 import in.co.najah.najahhr.entity.Jobs;
 import in.co.najah.najahhr.enums.AttachmentFor;
@@ -11,18 +10,16 @@ import in.co.najah.najahhr.repository.AttachmentRepository;
 import in.co.najah.najahhr.repository.DivisionRepository;
 import in.co.najah.najahhr.repository.JobSeekerRepository;
 import in.co.najah.najahhr.repository.JobsRepository;
-import in.co.najah.najahhr.util.Constants;
 import in.co.najah.najahhr.util.Mapper;
 import in.co.najah.najahhr.util.Utility;
 import lombok.extern.java.Log;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rx.Single;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 @Log
@@ -46,9 +43,7 @@ public class JobsServiceImpl implements JobsService{
     @Transactional
     public Single<ResponseModel<Jobs>> saveJob(JobsModelExtended job) {
         return Single.create(singleSubscriber -> {
-            if(jobsRepository.findByEmailId(job.getEmailId()).isPresent()){
-                singleSubscriber.onError(new AlreadyExists("Email already exists"));
-            }else if(!divisionRepository.findById(job.getDivisionId()).isPresent()){
+            if(!divisionRepository.findById(job.getDivisionId()).isPresent()){
                 singleSubscriber.onError(new AlreadyExists("Division doesn't exist"));
             }else{
                 Jobs jobEntity = Mapper.mapJob(job);
@@ -81,7 +76,7 @@ public class JobsServiceImpl implements JobsService{
     }
 
     @Override
-    public Single<ResponseModel<Map<String,List<JobsModel>>>> findAllJobs() {
+    public Single<ResponseModel<Map<String,List<JobsModel>>>> findAllJobsByIndustries() {
         return Single.create(singleSubscriber -> {
             List<Object[]> data= jobsRepository.findAllJobs();
 
@@ -108,4 +103,50 @@ public class JobsServiceImpl implements JobsService{
     return attachmentRepository.findById(attachmentId).orElse(null);
 
     }
+
+    @Override
+    public Single<ResponseModel<List<JobSeekerModel>>> findAllJobSeekers() {
+        return Single.create(singleSubscriber -> {
+            List<JobSeeker> jobSeekerList= jobSeekerRepository.findAll();
+
+            List<JobSeekerModel> jobSeekerModelList = new ArrayList<>();
+
+            for(JobSeeker jobSeeker:jobSeekerList){
+                JobSeekerModel jobSeekerModel = new JobSeekerModel();
+                jobSeekerModel = Mapper.map(jobSeeker);
+                jobSeekerModelList.add(jobSeekerModel);
+            }
+            singleSubscriber.onSuccess(new ResponseModel<List<JobSeekerModel>>(jobSeekerModelList));
+        });
+    }
+
+    @Override
+    public Single<ResponseModel<JobsFullModel>> archiveJob(Long jobId) {
+        return Single.create(singleSubscriber -> {
+            Optional<Jobs> jobsOptional = jobsRepository.findById(jobId);
+            if(!jobsOptional.isPresent()){
+                singleSubscriber.onError(new NotFound());
+            }else{
+                jobsOptional.get().setArchived(true);
+                jobsRepository.save(jobsOptional.get());
+                singleSubscriber.onSuccess(new ResponseModel<>(Mapper.mapToJobsFullModel(jobsOptional.get())));
+            }
+        });
+    }
+
+    @Override
+    public Single<ResponseModel<List<JobsFullModel>>> findAllJobs() {
+        return Single.create(singleSubscriber -> {
+            List<Jobs> jobsList = jobsRepository.findAll();
+            List<JobsFullModel> jobsFullModelList = new ArrayList<>();
+            jobsList.forEach(jobs  ->{
+                JobsFullModel jobsFullModel = new JobsFullModel();
+                jobsFullModel = Mapper.mapToJobsFullModel(jobs);
+                jobsFullModelList.add(jobsFullModel);
+            });
+            singleSubscriber.onSuccess(new ResponseModel<List<JobsFullModel>>(jobsFullModelList));
+        });
+    }
+
+
 }

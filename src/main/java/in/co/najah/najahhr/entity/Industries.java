@@ -26,7 +26,7 @@ public class Industries extends Audit {
     @Column(name = "url",nullable = false,unique = true)
     private String url;
 
-    @Column(name = "description",nullable = false,length = 1000)
+    @Column(name = "description",nullable = false,length = 5000)
     private String description;
 
     @Column(name="attachment_id",nullable = false,unique = true)
