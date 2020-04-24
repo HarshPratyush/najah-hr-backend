@@ -46,10 +46,6 @@ public class Account implements Serializable{
 	private String email;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-	private List<AccountDesignationMapping> accountDesignationMapping;
-
-	@JsonIgnore
 	@Column(name = "invalid_attempts", columnDefinition = "smallint default '0'")
 	private short invalidAttempts;
 

@@ -43,6 +43,7 @@ public class IndustryServiceImpl implements IndustryService {
 
     @Override
     public Single<ResponseModel<List<IndustriesModel>>> getAllIndustries() {
+        log.info("********** Inside get all industries *************");
         return Single.create(singleSubscriber -> {
             ResponseModel<List<IndustriesModel>> responseModel = new ResponseModel<>();
             List<IndustriesModel> industries = industriesRepository.findAll().stream().map(Mapper::map).collect(Collectors.toList());
@@ -118,7 +119,7 @@ public class IndustryServiceImpl implements IndustryService {
             List<Division> divisionList = divisionRepository.findByIndustriesUrl(url);
             List<DivisionModel> divisionModelList = new ArrayList<>();
             divisionList.forEach(division -> {
-                divisionModelList.add(Mapper.mapDivisionToModel(division));
+                divisionModelList.add(Mapper.map(division));
             });
             responseModel.setData(divisionModelList);
             singleSubscriber.onSuccess(responseModel);

@@ -26,7 +26,13 @@ public class Authority implements Serializable{
 	private String description;
 
 	@OneToMany(mappedBy = "authority", fetch = FetchType.LAZY)
-	List<DesignationAuthorityMapping> designationAuthorityMappings;
+	List<UserAuthorityMapping> userAuthorityMappings;
 
+	public Authority(String authority, String description) {
+		this.authority = authority;
+		this.description = description;
+	}
 
+	public Authority() {
+	}
 }

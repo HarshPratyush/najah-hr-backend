@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-public class DesignationAuthorityMapping implements Serializable {
+public class UserAuthorityMapping implements Serializable {
 	private static final long serialVersionUID = -984353118984797667L;
 	
 	@Id
@@ -18,10 +18,18 @@ public class DesignationAuthorityMapping implements Serializable {
 	private int id;
 
 	@ManyToOne
-	@JoinColumn(name = "designation_id_fk")
-	private Designation designation;
+	@JoinColumn(name = "users_id_fk")
+	private MstUser users;
 
 	@ManyToOne
 	@JoinColumn(name = "authority_id_fk")
 	private Authority authority;
+
+	public UserAuthorityMapping(MstUser users, Authority authority) {
+		this.users = users;
+		this.authority = authority;
+	}
+
+	public UserAuthorityMapping() {
+	}
 }

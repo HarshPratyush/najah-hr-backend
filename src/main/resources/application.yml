@@ -16,7 +16,7 @@ spring:
             poolName: najahr-pool
         password: admin
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:postgresql://localhost:5432/najahr
+#        url: jdbc:postgresql://localhost:5432/najahr
         username: postgres
     password: admin
     username: postgres
@@ -24,7 +24,7 @@ spring:
         default-domain: najahr-app
     jpa:
         hibernate:
-            ddl-auto: update
+            ddl-auto: none
         properties:
             hiberante:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -38,12 +38,28 @@ spring:
                 enabled: true
                 database-name: najahr
                 instance-connection-name: najahrbackend:us-central1:najahr
-#        credentials:
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: noreplynajahhr@gmail.com
+        password: HarsH@1331
+        protocol: smtp
+        tls: true
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls.enable: true
+                    ssl.trust: smtp.gmail.com
+    #        credentials:
 #            locations: classpath://najahrbackend-3bd3911302b9.json
 
 server:
     servlet:
-        context-path: /najahhrserver
+        session:
+            cookie:
+                path: /
+                http-only: false
     error:
         include-stacktrace: never
 

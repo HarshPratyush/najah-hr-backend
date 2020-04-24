@@ -29,7 +29,6 @@ public class JobSeekerModel {
     @NotEmpty
     private String message;
 
-    @NotNull
     private long divisionId;
 
     @NotNull
@@ -40,13 +39,13 @@ public class JobSeekerModel {
     @NotEmpty
     private String resume;
 
-    @NotNull
-    @NotEmpty
     private Long resumeId;
 
     @NotNull
     @NotEmpty
     private String fileExt;
+
+    private String fileType;
 
     public JobSeekerModel(String dob, String emailId, String message, String name, String subject) {
         this.dob = dob;

@@ -26,7 +26,7 @@ public class Mapper {
         return industriesModel;
     }
 
-    public static Jobs mapJob(JobsModelExtended jobModel){
+    public static Jobs map(JobsModelExtended jobModel){
         Jobs job = new Jobs();
         job.setSubject(jobModel.getSubject());
         job.setCompanyName(jobModel.getCompanyName());
@@ -40,7 +40,7 @@ public class Mapper {
         return job;
     }
 
-    public static JobSeeker mapJobSeeker(JobSeekerModel jobSeekerModel) {
+    public static JobSeeker map(JobSeekerModel jobSeekerModel) {
         JobSeeker jobSeeker = new JobSeeker();
 //        jobSeeker.setAttachment(new Attachment(jobSeekerModel.getAttachment()));
         jobSeeker.setDob(LocalDate.parse(jobSeekerModel.getDob()));
@@ -52,14 +52,14 @@ public class Mapper {
         return jobSeeker;
     }
 
-    public static DivisionModel mapDivisionToModel(Division division) {
+    public static DivisionModel map(Division division) {
         DivisionModel divisionModel = new DivisionModel();
         divisionModel.setDivisionName(division.getDivisionName());
         divisionModel.setId(division.getId());
         return divisionModel;
     }
 
-    public static JobsFullModel mapToJobsFullModel(Jobs jobs) {
+    public static JobsFullModel map(Jobs jobs) {
         JobsFullModel jobsFullModel = new JobsFullModel();
         jobsFullModel.setId(jobs.getId());
         jobsFullModel.setSubject(jobs.getSubject());

@@ -10,16 +10,25 @@ import in.co.najah.najahhr.repository.AttachmentRepository;
 import in.co.najah.najahhr.repository.DivisionRepository;
 import in.co.najah.najahhr.repository.JobSeekerRepository;
 import in.co.najah.najahhr.repository.JobsRepository;
+import in.co.najah.najahhr.util.Constants;
 import in.co.najah.najahhr.util.Mapper;
 import in.co.najah.najahhr.util.Utility;
 import lombok.extern.java.Log;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rx.Single;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 @Log
@@ -37,7 +46,10 @@ public class JobsServiceImpl implements JobsService{
     @Autowired
     private AttachmentRepository attachmentRepository;
 
+    @Autowired
+    public JavaMailSender emailSender;
 
+    private final static Path rootPath = Paths.get(Constants.ROOT_DIRC);
 
     @Override
     @Transactional
@@ -46,7 +58,7 @@ public class JobsServiceImpl implements JobsService{
             if(!divisionRepository.findById(job.getDivisionId()).isPresent()){
                 singleSubscriber.onError(new AlreadyExists("Division doesn't exist"));
             }else{
-                Jobs jobEntity = Mapper.mapJob(job);
+                Jobs jobEntity = Mapper.map(job);
 
 
                 jobEntity= jobsRepository.save(jobEntity);
@@ -59,10 +71,10 @@ public class JobsServiceImpl implements JobsService{
     @Transactional
     public Single<ResponseModel<JobSeeker>> saveJobSeeker(JobSeekerModel jobSeekerModel) {
         return Single.create(singleSubscriber -> {
-            JobSeeker jobSeeker = Mapper.mapJobSeeker(jobSeekerModel);
+            JobSeeker jobSeeker = Mapper.map(jobSeekerModel);
 
             Attachment attachment = new Attachment();
-            attachment.setAttachmentType(Utility.getMimeType(jobSeekerModel.getResume()));
+            attachment.setAttachmentType(jobSeekerModel.getFileType());
             attachment.setAttachmentFor(AttachmentFor.JOBSEEKER);
             try {
                 attachment.setAttachmentPath(Utility.writeBase64ToFile(jobSeekerModel.getResume(),jobSeekerModel.getName(),jobSeekerModel.getFileExt()));
@@ -71,8 +83,33 @@ public class JobsServiceImpl implements JobsService{
             }
             jobSeeker.setResume(attachment);
             jobSeeker = jobSeekerRepository.save(jobSeeker);
+            try {
+                sendMessageWithAttachment("info@najahhr.com","Resume By "+jobSeeker.getName(),"New Resume Recieved",rootPath.resolve(attachment.getAttachmentPath()));
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
             singleSubscriber.onSuccess(new ResponseModel<JobSeeker>(jobSeeker));
         });
+    }
+
+    private void sendMessageWithAttachment(
+            String to, String subject, String text, Path pathToAttachment) throws MessagingException {
+        // ...
+
+        MimeMessage message = emailSender.createMimeMessage();
+
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(text);
+
+        FileSystemResource file
+                = new FileSystemResource(pathToAttachment);
+        helper.addAttachment(file.getFilename(), file);
+
+        emailSender.send(message);
+        // ...
     }
 
     @Override
@@ -129,7 +166,7 @@ public class JobsServiceImpl implements JobsService{
             }else{
                 jobsOptional.get().setArchived(true);
                 jobsRepository.save(jobsOptional.get());
-                singleSubscriber.onSuccess(new ResponseModel<>(Mapper.mapToJobsFullModel(jobsOptional.get())));
+                singleSubscriber.onSuccess(new ResponseModel<>(Mapper.map(jobsOptional.get())));
             }
         });
     }
@@ -141,7 +178,7 @@ public class JobsServiceImpl implements JobsService{
             List<JobsFullModel> jobsFullModelList = new ArrayList<>();
             jobsList.forEach(jobs  ->{
                 JobsFullModel jobsFullModel = new JobsFullModel();
-                jobsFullModel = Mapper.mapToJobsFullModel(jobs);
+                jobsFullModel = Mapper.map(jobs);
                 jobsFullModelList.add(jobsFullModel);
             });
             singleSubscriber.onSuccess(new ResponseModel<List<JobsFullModel>>(jobsFullModelList));

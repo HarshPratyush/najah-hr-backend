@@ -14,6 +14,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
 import rx.Single;
@@ -32,7 +34,6 @@ import java.util.Map;
 
 
 @CrossOrigin
-@RequestMapping("jobs")
 @RestController
 public class JobsController {
 
@@ -42,23 +43,23 @@ public class JobsController {
     private final static Path rootPath = Paths.get(Constants.ROOT_DIRC);
 
 
-    @PostMapping
+    @PostMapping("anonymous/jobs")
     public Single<ResponseModel<Jobs>> saveJob(@Valid @RequestBody JobsModelExtended jobsModelExtended){
         return jobsService.saveJob(jobsModelExtended);
     }
 
-    @PostMapping(path = "/jobSeeker")
+    @PostMapping(path = "anonymous/jobs/jobSeeker")
     public Single<ResponseModel<JobSeeker>> saveJobSeeker(@Valid @RequestBody JobSeekerModel jobSeekerModel){
         return jobsService.saveJobSeeker(jobSeekerModel);
     }
 
-    @GetMapping
+    @GetMapping("anonymous/jobs")
     public Single<ResponseModel<Map<String,List<JobsModel>>>> findAllJobsByIndustries(){
         return jobsService.findAllJobsByIndustries();
     }
 
-    @GetMapping(path = "downloadAttachment/{attachmentId}")
-    public ResponseEntity<InputStreamResource> getFile(@PathVariable("attachmentId") Long attachmentId, HttpServletRequest    request,
+    @GetMapping(path = "anonymous/downloadAttachment/{attachmentId}")
+    public ResponseEntity<InputStreamResource> getFile(@PathVariable("attachmentId") Long attachmentId, HttpServletRequest request,
                                                        HttpServletResponse response) throws IOException {
         Attachment attachment = jobsService.getAttachment(attachmentId);
         Path file = rootPath.resolve(attachment.getAttachmentPath()).toAbsolutePath();
@@ -83,18 +84,22 @@ public class JobsController {
     }
 
 
-    @GetMapping(path = "/jobSeeker")
+    @PreAuthorize("hasAuthority('resume')")
+    @GetMapping(path = "jobs/jobSeeker")
     public Single<ResponseModel<List<JobSeekerModel>>> findAllJobSeeker(){
         return jobsService.findAllJobSeekers();
     }
 
-    @PutMapping(path = "archiveJob/{jobId}")
+    @PreAuthorize("hasAuthority('jobs')")
+    @PutMapping(path = "jobs/archiveJob/{jobId}")
     public Single<ResponseModel<JobsFullModel>> archiveJob(@PathVariable(name = "jobId") String jobId ){
         return jobsService.archiveJob(Long.valueOf(jobId));
     }
 
-    @GetMapping(path="all")
+    @PreAuthorize("hasAuthority('jobs')")
+    @GetMapping(path="jobs/all")
     public Single<ResponseModel<List<JobsFullModel>>> findAllJobs(){
         return jobsService.findAllJobs();
     }
+
 }
