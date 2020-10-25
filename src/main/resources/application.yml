@@ -44,13 +44,7 @@ spring:
                     auth: true
                     starttls.enable: true
 
-
-#server:
-#    servlet:
-#        session:
-#            cookie:
-#                path: /
-#                http-only: false
+server:
     error:
         include-stacktrace: never
 
