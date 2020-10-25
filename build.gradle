@@ -51,10 +51,3 @@ test {
 	useJUnitPlatform()
 }
 
-appengine {
-	deploy {
-		stopPreviousVersion = true
-		promote = true
-	}
-}
-
