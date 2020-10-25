@@ -1,6 +1,5 @@
 buildscript {
 	dependencies {
-		classpath 'com.google.cloud.tools:appengine-gradle-plugin:1.+'
 	}
 }
 
@@ -9,8 +8,6 @@ plugins {
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
 	id 'java'
 }
-
-apply plugin: 'com.google.cloud.tools.appengine'
 
 group = 'in.co.najah'
 version = '0.0.1-SNAPSHOT'
@@ -39,8 +36,6 @@ dependencies {
 	compile "io.reactivex:rxjava-reactive-streams:1.2.1"
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'org.postgresql:postgresql'
-// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-gcp-starter-sql-postgresql
-	compile group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-sql-postgresql', version: '1.2.2.RELEASE'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	compile group: 'commons-codec', name: 'commons-codec', version: '1.5'
@@ -63,4 +58,3 @@ appengine {
 	}
 }
 
-appengine.tools.cloudSdkHome="C:\\Active Code\\najahhr\\google-cloud-sdk"
