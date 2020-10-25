@@ -45,12 +45,12 @@ spring:
                     starttls.enable: true
 
 
-server:
-    servlet:
-        session:
-            cookie:
-                path: /
-                http-only: false
+#server:
+#    servlet:
+#        session:
+#            cookie:
+#                path: /
+#                http-only: false
     error:
         include-stacktrace: never
 
