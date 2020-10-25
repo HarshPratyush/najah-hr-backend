@@ -38,14 +38,11 @@ spring:
         port: 587
         username: ${MAIL_USER}
         password: ${MAIL_PASS}
-        protocol: smtp
-        tls: true
         properties:
             mail:
                 smtp:
                     auth: true
                     starttls.enable: true
-                    ssl.trust: smtp.gmail.com
 
 
 server:

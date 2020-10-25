@@ -14,7 +14,6 @@ import java.util.regex.Pattern;
 
 public class Utility {
 
-    private final static Path rootPath = Paths.get(Constants.ROOT_DIRC);
 
 
     public static String getMimeType(String base64File){
@@ -24,17 +23,8 @@ public class Utility {
 //        return matcher.group(1).toLowerCase();
     }
 
-    public  static String writeBase64ToFile(String base64File,String fileName,String fileExt) throws IOException {
-        byte[] decodedImg = Base64.getDecoder()
+    public  static byte[] writeBase64ToFile(String base64File,String fileName,String fileExt) throws IOException {
+        return Base64.getDecoder()
                 .decode(base64File.split(",")[1].getBytes(StandardCharsets.UTF_8));
-        InputStream is = null;
-        is = new ByteArrayInputStream(decodedImg);
-
-
-        String filename = fileName+new Date().getTime()+"."+fileExt;
-
-        Files.copy(is,rootPath.resolve(filename).toAbsolutePath());
-
-        return filename;
     }
 }

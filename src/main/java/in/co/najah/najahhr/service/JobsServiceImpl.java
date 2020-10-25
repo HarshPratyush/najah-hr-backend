@@ -10,13 +10,12 @@ import in.co.najah.najahhr.repository.AttachmentRepository;
 import in.co.najah.najahhr.repository.DivisionRepository;
 import in.co.najah.najahhr.repository.JobSeekerRepository;
 import in.co.najah.najahhr.repository.JobsRepository;
-import in.co.najah.najahhr.util.Constants;
 import in.co.najah.najahhr.util.Mapper;
 import in.co.najah.najahhr.util.Utility;
 import lombok.extern.java.Log;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -25,7 +24,6 @@ import rx.Single;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -49,7 +47,6 @@ public class JobsServiceImpl implements JobsService{
     @Autowired
     public JavaMailSender emailSender;
 
-    private final static Path rootPath = Paths.get(Constants.ROOT_DIRC);
 
     @Override
     @Transactional
@@ -76,6 +73,8 @@ public class JobsServiceImpl implements JobsService{
             Attachment attachment = new Attachment();
             attachment.setAttachmentType(jobSeekerModel.getFileType());
             attachment.setAttachmentFor(AttachmentFor.JOBSEEKER);
+            attachment.setAttachmentName(jobSeekerModel.getName().concat(".").concat(jobSeekerModel.getFileExt()));
+
             try {
                 attachment.setAttachmentPath(Utility.writeBase64ToFile(jobSeekerModel.getResume(),jobSeekerModel.getName(),jobSeekerModel.getFileExt()));
             } catch (IOException e) {
@@ -84,7 +83,7 @@ public class JobsServiceImpl implements JobsService{
             jobSeeker.setResume(attachment);
             jobSeeker = jobSeekerRepository.save(jobSeeker);
             try {
-                sendMessageWithAttachment("info@najahhr.com","Resume By "+jobSeeker.getName(),"New Resume Recieved",rootPath.resolve(attachment.getAttachmentPath()));
+                sendMessageWithAttachment("info@najahhr.com","Resume By "+jobSeeker.getName(),"New Resume Received",attachment.getAttachmentName(),attachment.getAttachmentPath());
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -93,7 +92,7 @@ public class JobsServiceImpl implements JobsService{
     }
 
     private void sendMessageWithAttachment(
-            String to, String subject, String text, Path pathToAttachment) throws MessagingException {
+            String to, String subject, String text, String fileName,byte[] pathToAttachment) throws MessagingException {
         // ...
 
         MimeMessage message = emailSender.createMimeMessage();
@@ -104,9 +103,7 @@ public class JobsServiceImpl implements JobsService{
         helper.setSubject(subject);
         helper.setText(text);
 
-        FileSystemResource file
-                = new FileSystemResource(pathToAttachment);
-        helper.addAttachment(file.getFilename(), file);
+        helper.addAttachment(fileName,new ByteArrayResource(pathToAttachment));
 
         emailSender.send(message);
         // ...

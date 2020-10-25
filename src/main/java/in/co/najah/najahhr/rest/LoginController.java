@@ -6,30 +6,13 @@ import in.co.najah.najahhr.models.*;
 import in.co.najah.najahhr.repository.AccountRepository;
 import in.co.najah.najahhr.repository.AuthorityRepository;
 import in.co.najah.najahhr.repository.UserRepository;
-import in.co.najah.najahhr.service.JobsService;
-import in.co.najah.najahhr.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
-import rx.Single;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 

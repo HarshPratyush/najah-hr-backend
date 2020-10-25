@@ -6,16 +6,14 @@ import in.co.najah.najahhr.entity.JobSeeker;
 import in.co.najah.najahhr.entity.Jobs;
 import in.co.najah.najahhr.models.*;
 import in.co.najah.najahhr.service.JobsService;
-import in.co.najah.najahhr.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.util.MimeType;
 import org.springframework.web.bind.annotation.*;
 import rx.Single;
@@ -23,7 +21,6 @@ import rx.Single;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -40,7 +37,6 @@ public class JobsController {
     @Autowired
    private JobsService jobsService;
 
-    private final static Path rootPath = Paths.get(Constants.ROOT_DIRC);
 
 
     @PostMapping("anonymous/jobs")
@@ -59,26 +55,19 @@ public class JobsController {
     }
 
     @GetMapping(path = "anonymous/downloadAttachment/{attachmentId}")
-    public ResponseEntity<InputStreamResource> getFile(@PathVariable("attachmentId") Long attachmentId, HttpServletRequest request,
+    public ResponseEntity<ByteArrayResource> getFile(@PathVariable("attachmentId") Long attachmentId, HttpServletRequest request,
                                                        HttpServletResponse response) throws IOException {
         Attachment attachment = jobsService.getAttachment(attachmentId);
-        Path file = rootPath.resolve(attachment.getAttachmentPath()).toAbsolutePath();
-        if (Files.exists(file))
+        if (attachment!=null)
         {
             response.setContentType(attachment.getAttachmentType());
-            response.addHeader("Content-Disposition", "inline; filename="+file.getFileName());
-            try
-            {
+            response.addHeader("Content-Disposition", "inline; filename="+attachment.getAttachmentName());
 
-                HttpHeaders respHeaders = new HttpHeaders();
-                respHeaders.setContentType(MediaType.asMediaType(MimeType.valueOf(attachment.getAttachmentType())));
-                respHeaders.add("Content-Disposition", "inline; filename=" + file.getFileName());
-                InputStreamResource isr = new InputStreamResource(new FileInputStream(file.toFile()));
-                return new ResponseEntity<InputStreamResource>(isr, respHeaders, HttpStatus.OK);
-            }
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            HttpHeaders respHeaders = new HttpHeaders();
+            respHeaders.setContentType(MediaType.asMediaType(MimeType.valueOf(attachment.getAttachmentType())));
+            respHeaders.add("Content-Disposition", "inline; filename=" + attachment.getAttachmentName());
+//                InputStreamResource isr = new InputStreamResource(new FileInputStream(new ByteArrayResource(attachment.getAttachmentPath()).getFile()));
+            return new ResponseEntity<ByteArrayResource>(new ByteArrayResource(attachment.getAttachmentPath()), respHeaders, HttpStatus.OK);
         }
         return  ResponseEntity.badRequest().body(null);
     }

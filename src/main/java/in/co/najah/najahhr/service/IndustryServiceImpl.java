@@ -69,6 +69,7 @@ public class IndustryServiceImpl implements IndustryService {
                 Attachment attachment = new Attachment();
                 attachment.setAttachmentType(industryModel.getFileType());
                 attachment.setAttachmentFor(AttachmentFor.INDUSTRY);
+                attachment.setAttachmentName(industryModel.getUrl().concat(".").concat(industryModel.getFileExt()));
                 try {
                     attachment.setAttachmentPath(Utility.writeBase64ToFile(industryModel.getImage(), industryModel.getUrl(), industryModel.getFileExt()));
                 } catch (IOException e) {

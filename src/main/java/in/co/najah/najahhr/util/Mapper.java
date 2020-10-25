@@ -87,7 +87,7 @@ public class Mapper {
         jobSeekerModel.setMessage(jobSeeker.getMessage());
         jobSeekerModel.setDivisionId(jobSeeker.getDivision().getId());
         jobSeekerModel.setDob(jobSeeker.getDob().toString());
-        jobSeekerModel.setResume(jobSeeker.getResume().getAttachmentPath());
+//        jobSeekerModel.setResume(jobSeeker.getResume().getAttachmentPath());
         jobSeekerModel.setFileExt(jobSeeker.getResume().getAttachmentType());
         jobSeekerModel.setResumeId(jobSeeker.getResume().getAttachmentId());
         return jobSeekerModel;

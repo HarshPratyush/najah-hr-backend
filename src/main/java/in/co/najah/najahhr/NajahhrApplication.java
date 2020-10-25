@@ -2,7 +2,6 @@ package in.co.najah.najahhr;
 
 import in.co.najah.najahhr.entity.audit.AuditorAwareImpl;
 import in.co.najah.najahhr.entity.audit.LocalDateTimeProvider;
-import in.co.najah.najahhr.util.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -24,7 +23,6 @@ import java.nio.file.Paths;
 @EnableJpaAuditing(auditorAwareRef = "auditorAware",dateTimeProviderRef = "dateTimeProvider",modifyOnCreate = false)
 public class NajahhrApplication {
 
-	private final Path rootPath = Paths.get(Constants.ROOT_DIRC);
 
 	@Bean
 	public AuditorAware<String> auditorAware() {
@@ -52,20 +50,5 @@ public class NajahhrApplication {
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
-	}
-
-
-	@PostConstruct
-	public void init() {
-		try {
-			if(!Files.isDirectory(rootPath))
-			{
-				Files.createDirectory(rootPath);
-			}
-		}
-		catch (IOException e) {
-			e.printStackTrace();
-		}
-
 	}
 }
