@@ -72,7 +72,7 @@ public class IndustryServiceImpl implements IndustryService {
                 try {
                     attachment.setAttachmentPath(Utility.writeBase64ToFile(industryModel.getImage(), industryModel.getUrl(), industryModel.getFileExt()));
                 } catch (IOException e) {
-                    singleSubscriber.onError(new IOException("Exception"));
+                    singleSubscriber.onError(e);
                 }
 
                 attachmentRepository.save(attachment);
