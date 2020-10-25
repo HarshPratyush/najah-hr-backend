@@ -58,4 +58,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         tokenRepository.setCookiePath("/");
         return tokenRepository;
     }
+
+
 }
