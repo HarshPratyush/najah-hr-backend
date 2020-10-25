@@ -24,7 +24,7 @@ spring:
         default-domain: najahr-app
     jpa:
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: none
         properties:
             hiberante:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
